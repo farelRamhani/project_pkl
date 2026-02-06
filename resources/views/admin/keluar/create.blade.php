@@ -27,11 +27,6 @@
         </div>
 
         <div class="form-floating form-floating-outline mb-6">
-          <input type="date" class="form-control" id="tujuan" name="tujuan" />
-          <label for="tujuan">Tanggal Terima</label>
-        </div>
-
-        <div class="form-floating form-floating-outline mb-6">
           <input type="text" class="form-control" id="tujuan" name="tujuan" />
           <label for="tujuan">Tujuan</label>
         </div>
@@ -45,6 +40,14 @@
         <div class="form-floating form-floating-outline mb-6">
           <input type="file" class="form-control" id="file_surat" name="file_surat" />
           <label for="file_surat">File Surat</label>
+        </div>
+        
+        <div class="form-floating form-floating-outline mb-6">
+          <select class="form-control form-select" name="status" id="jenisInput">
+            <option value="draft">draft</option>
+            <option value="terkirim">Terkirim</option>
+          </select>
+          <label for="jenisInput">File Surat</label>
         </div>
 
         <div class="mt-3 text-end">

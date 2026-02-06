@@ -10,20 +10,9 @@ use Auth;
 
 class DisposisiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $this->middleware('auth');
     }
 
     /**
@@ -31,51 +20,34 @@ class DisposisiController extends Controller
      */
     public function store(Request $request)
     {
-        $suratMasukID = SuratMasuk::where('no_surat', $request->no_surat)->first();
+        // VALIDASI input
+        $request->validate([
+            'no_surat' => 'required|exists:surat_masuks,no_surat',
+            'user_id' => 'required|exists:users,id',
+            'catatan_disposisi' => 'required|string',
+        ]);
+
+        // Ambil data surat_masuk berdasarkan no_surat
+        $suratMasuk = SuratMasuk::where('no_surat', $request->no_surat)->first();
+
+        if (!$suratMasuk) {
+            Alert::error('Surat tidak ditemukan!');
+            return redirect()->back();
+        }
+
+        // Simpan disposisi
         $disposisi = new Disposisi();
         $disposisi->pengirim_id = Auth::user()->id;
-        $disposisi->surat_masuk_id = $suratMasukID->id;
+        $disposisi->surat_masuk_id = $suratMasuk->id;
         $disposisi->user_id = $request->user_id;
-        $disposisi->catatan_disposisi = $request->catatan;
+        $disposisi->catatan_disposisi = $request->catatan_disposisi;
         $disposisi->save();
-        if($disposisi){
-            $suratMasuk = SuratMasuk::findOrFail($suratMasukID->id);
-            $suratMasuk->status = 'didisposisi';
-            $suratMasuk->save();
-        }
+
+        // Update status surat
+        $suratMasuk->status = 'didisposisi';
+        $suratMasuk->save();
+
         Alert::success('Berhasil Mengirim.');
         return redirect()->route('admin.masuk.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens; // tambahkan kode ini
 
     /**
      * The attributes that are mass assignable.
@@ -50,5 +51,10 @@ class User extends Authenticatable
     public function disposisi()
     {
         return $this->hasMany(Disposisi::class);
+    }
+
+    public function pengajuansurat()
+    {
+        return $this->hasMany(PengajuanSurat::class, 'user_id');
     }
 }

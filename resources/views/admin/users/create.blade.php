@@ -4,7 +4,7 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0">Form Controls</h5>
-      <a href="{{ route('masuk.index') }}" class="btn btn-outline-secondary">
+      <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
         <i class="ri ri-arrow-left-line me-1"></i> Kembali
       </a>
     </div>

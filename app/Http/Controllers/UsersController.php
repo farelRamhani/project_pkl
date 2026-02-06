@@ -45,7 +45,7 @@ class UsersController extends Controller
         $user->save();
 
         toast('Data berhasil ditambahkan', 'success');
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -61,7 +61,11 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+    $user = User::findOrFail($id);
+    return view('admin.users.edit', compact('user'));
+
+
     }
 
     /**
@@ -69,14 +73,32 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        toast('Data berhasil diupdate', 'success');
+        return redirect()->route('admin.users.index'); // ⬅️ PENTING
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User berhasil dihapus');
     }
+
+
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Disposisi extends Model
 {
-    protected $fillable = ['id','pengirim_id', 'surat_masuk_id', 'user_id', 'catatan_disposisi'];
+    protected $fillable = ['pengirim_id', 'surat_masuk_id', 'user_id', 'catatan_disposisi'];
     public $timestamp = true;
 
     public function suratMasuk(){

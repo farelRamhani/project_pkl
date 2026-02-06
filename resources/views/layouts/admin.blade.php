@@ -18,6 +18,37 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <!-- Remix Icon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+     <style>
+      /* Navbar Search */
+      .navbar-search .search-input {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        transition: all 0.25s ease;
+        font-size: 0.9rem;
+      }
+
+      .navbar-search .search-input::placeholder {
+        color: #9ca3af;
+      }
+
+      .navbar-search .search-input:focus {
+        background-color: #ffffff;
+        border-color: #696cff;
+        box-shadow: 0 0 0 0.2rem rgba(105, 108, 255, 0.25);
+      }
+
+      /* Responsive: sembunyikan search di layar kecil */
+      @media (max-width: 768px) {
+        .navbar-search {
+          display: none;
+        }
+      }
+    </style>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

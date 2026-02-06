@@ -4,20 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\SuratKeluar;
 use App\Models\SuratMasuk;
+use App\Models\PengajuanSurat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SuratKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $title = 'Hapus Data!';
         $text = "Apakah anda yakin?";
         confirmDelete($title, $text);
         $suratKeluar = SuratKeluar::latest()->get();
-        return view ('admin.keluar.index', compact('suratKeluar'));
+        $pengajuans = PengajuanSurat::where('status', 'disetujui')->get();
+        return view ('admin.keluar.index', compact('suratKeluar', 'pengajuans'));
     }
 
     /**
@@ -35,30 +42,42 @@ class SuratKeluarController extends Controller
     {
         $request->validate([
             'no_surat' => 'required|unique:surat_keluars',
-            'tgl_surat' => 'required|date',
+            'tgl_surat' => 'required|string',
             'tujuan' => 'required',
             'perihal' => 'required|string',
-            'file_surat' => 'required',
+            'file_surat' => 'required|file|mimes:pdf,doc,docx',
         ]);
+        $path = $request->file('file_surat')->store('surat_keluar', 'public');
         $suratKeluar = new SuratKeluar();
         $suratKeluar->no_surat = $request->no_surat;
         $suratKeluar->tgl_surat = $request->tgl_surat;
         $suratKeluar->tujuan = $request->tujuan;
         $suratKeluar->perihal = $request->perihal;
-        $suratKeluar->file_surat = $request->file_surat;
+        $suratKeluar->file_surat = $path;
+        $suratKeluar->status = $request->status;
         $suratKeluar->save();
 
         toast('Data berhasil ditambahkan', 'success');
-        return redirect()->route('keluar.index');
+        return redirect()->route('admin.keluar.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(SuratKeluar $suratKeluar)
+   public function show($id)
     {
-        //
+        $surat = SuratKeluar::findOrFail($id);
+
+        $path = public_path('storage/' . $surat->file_surat);
+
+        if (!file_exists($path)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return response()->file($path);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -75,23 +94,26 @@ class SuratKeluarController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'no_surat' => 'required|string|unique:surat_keluars',
+            'no_surat' => 'required|string',
             'tgl_surat' => 'required|date',
-            'tujuan' => 'required|date',
+            'tujuan' => 'required',
             'perihal' => 'required|string',
-            'file_surat' => 'required|string',
+            'file_surat' => 'nullable',
         ]);
         $suratKeluar = SuratKeluar::findOrFail($id);
+        if ($request->hasFile('file_surat')) {
+            $path = $request->file('file_surat')->store('surat_keluar', 'public');
+            $suratKeluar->file_surat = $path;
+        }
         $suratKeluar->no_surat = $request->no_surat;
         $suratKeluar->tgl_surat = $request->tgl_surat;
         $suratKeluar->tujuan = $request->tujuan;
         $suratKeluar->perihal = $request->perihal;
-        $suratKeluar->file_surat = $request->file_surat;
         $suratKeluar->save();
 
         
         toast('Data berhasil diubah', 'success');
-        return redirect()->route('keluar.index');
+        return redirect()->route('admin.keluar.index');
     }
 
     /**
@@ -100,9 +122,15 @@ class SuratKeluarController extends Controller
     public function destroy($id)
     {
         $suratKeluar =SuratKeluar::findOrFail($id);
+        if ($suratKeluar->file_surat && Storage::disk('public')->exists($suratKeluar->file_surat)) {
+            Storage::disk('public')->delete($suratKeluar->file_surat);
+        }
         $suratKeluar->delete();
         
         toast('Data berhasil dihapus', 'success');
-        return redirect()->route('keluar.index');
+        return redirect()->route('admin.keluar.index');
+
     }
+    
+
 }

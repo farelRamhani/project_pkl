@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disposisi;
+use App\Models\SuratMasuk;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $title = 'Hapus Data!';

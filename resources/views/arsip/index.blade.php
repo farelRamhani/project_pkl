@@ -95,8 +95,8 @@
         </div>
         <div class="row">
           <div class="col mb-6 mt-2">
-            <a href="{{ route('surat.download', $data->surat_masuk_id) }}" class="btn btn-sm btn-primary">
-              Download Surat
+            <a href="{{ route('suratMasuk.download', $item->id) }}" class="btn btn-sm btn-info">
+                <i class="ri-download-line"></i> Download
             </a>
           </div>
         </div>
@@ -110,6 +110,6 @@
   </div>
 </div>
 </form>
-@endforeach
+@endforeach 
 @endsection
                             

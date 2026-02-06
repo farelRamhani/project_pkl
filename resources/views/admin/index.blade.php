@@ -1,264 +1,214 @@
 @extends('layouts.admin')
 @section('content')
-              <div class="row gy-6">
-                <!-- Transactions -->
-                <div class="col-lg-15">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Total Data</h5>
-                      </div>
-                    </div>
-                    <div class="card-body pt-lg-10">
-                      <div class="row g-6">
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-primary rounded shadow-xs">
-                                <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Surat Masuk</p>
-                              <h5 class="mb-0">23</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-success rounded shadow-xs">
-                                <i class="icon-base ri ri-group-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Surat Keluar</p>
-                              <h5 class="mb-0">12.5k</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-warning rounded shadow-xs">
-                                <i class="icon-base ri ri-macbook-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Arsip</p>
-                              <h5 class="mb-0">1.54k</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-info rounded shadow-xs">
-                                <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Pengguna</p>
-                              <h5 class="mb-0">$88k</h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Transactions -->
-                <!-- Data Tables -->
-                <div class="col-12">
-                  <div class="card overflow-hidden">
-                    <div class="table-responsive">
-                      <table class="table table-sm">
-                        <thead>
-                          <tr>
-                            <th class="text-truncate">User</th>
-                            <th class="text-truncate">Email</th>
-                            <th class="text-truncate">Role</th>
-                            <th class="text-truncate">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/1.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Jordan Stevenson</h6>
-                                  <small class="text-truncate">@amiccoo</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">susanna.Lind57@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-vip-crown-line icon-22px text-primary me-2"></i>
-                                <span>Admin</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Benedetto Rossiter</h6>
-                                  <small class="text-truncate">@brossiter15</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">estelle.Bailey10@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/2.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bentlee Emblin</h6>
-                                  <small class="text-truncate">@bemblinf</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">milo86@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-computer-line text-danger icon-22px me-2"></i>
-                                <span>Author</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bertha Biner</h6>
-                                  <small class="text-truncate">@bbinerh</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">lonnie35@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/4.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Beverlie Krabbe</h6>
-                                  <small class="text-truncate">@bkrabbe1d</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">ahmad_Collins@yahoo.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-pie-chart-2-line icon-22px text-info me-2"></i>
-                                <span>Maintainer</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/7.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bradan Rosebotham</h6>
-                                  <small class="text-truncate">@brosebothamz</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">tillman.Gleason68@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bree Kilday</h6>
-                                  <small class="text-truncate">@bkildayr</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">otho21@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
-                                <span>Subscriber</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr class="border-transparent">
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="{{ asset('assets/img/avatars/1.png') }}" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Breena Gallemore</h6>
-                                  <small class="text-truncate">@bgallemore6</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">florencio.Little@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
-                                <span>Subscriber</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-secondary rounded-pill">Inactive</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Data Tables -->
-              </div>
-            <!-- / Content -->
 
-            <div class="content-backdrop fade"></div>
-          
+<style>
+.stat-box{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transition:.3s;
+}
+.stat-box:hover{
+  transform:translateY(-5px);
+  box-shadow:0 14px 30px rgba(0,0,0,.14);
+}
+.stat-icon{
+  width:54px;
+  height:54px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+}
+.stat-icon i{font-size:26px;}
+.bg-masuk{background:#7c5cff;}
+.bg-keluar{background:#2ecc71;}
+.bg-arsip{background:#f1c40f;}
+.bg-user{background:#3498db;}
+.stat-text p{
+  margin:0;
+  font-size:14px;
+  color:#6c757d;
+}
+.stat-text h4{
+  margin:0;
+  font-weight:700;
+}
+</style>
+
+<div class="row gy-4">
+
+{{-- ================= STATISTIK ================= --}}
+@if(Auth::user()->role == 'admin')
+<div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">Statistik Data</h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-4">
+
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon bg-masuk"><i class="ri-mail-line"></i></div>
+            <div class="stat-text">
+              <p>Surat Masuk</p>
+              <h4>{{ $totalMasuk }}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon bg-keluar"><i class="ri-mail-send-line"></i></div>
+            <div class="stat-text">
+              <p>Surat Keluar</p>
+              <h4>{{ $totalKeluar }}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon bg-arsip"><i class="ri-archive-line"></i></div>
+            <div class="stat-text">
+              <p>Arsip</p>
+              <h4>{{ $totalArsip }}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon bg-user"><i class="ri-group-line"></i></div>
+            <div class="stat-text">
+              <p>Pengguna</p>
+              <h4>{{ $totalUsers }}</h4>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+
+{{-- ================= TABEL (2 KOLOM) ================= --}}
+<div class="col-md-6">
+
+  {{-- SURAT MASUK --}}
+  <div class="card h-100">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Surat Masuk Terbaru</h5>
+      <select class="form-select form-select-sm w-auto"
+              onchange="filterTable(this, 'tableMasuk', 3)">
+        <option value="">Semua</option>
+        <option value="diproses">Diproses</option>
+        <option value="didisposisi">Didisposisi</option>
+        <option value="ditindaklanjuti">Ditindaklanjuti</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="tableMasuk">
+        <thead class="table-light">
+          <tr>
+            <th>No Surat</th>
+            <th>Pengirim</th>
+            <th>Perihal</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($suratMasuk->take(5) as $data)
+          <tr>
+            <td>{{ $data->no_surat }}</td>
+            <td>{{ $data->pengirim }}</td>
+            <td>{{ $data->perihal }}</td>
+            <td>
+              <span class="badge rounded-pill
+                @if($data->status=='diproses') bg-primary
+                @elseif($data->status=='didisposisi') bg-info
+                @elseif($data->status=='ditindaklanjuti') bg-warning
+                @endif">
+                {{ $data->status }}
+              </span>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+
+  {{-- SURAT KELUAR --}}
+  <div class="card h-100">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Surat Keluar Terbaru</h5>
+      <select class="form-select form-select-sm w-auto"
+              onchange="filterTable(this, 'tableKeluar', 3)">
+        <option value="">Semua</option>
+        <option value="draft">Draft</option>
+        <option value="terkirim">Terkirim</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="tableKeluar">
+        <thead class="table-light">
+          <tr>
+            <th>No Surat</th>
+            <th>Tujuan</th>
+            <th>Perihal</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($suratKeluar->take(5) as $data)
+          <tr>
+            <td>{{ $data->no_surat }}</td>
+            <td>{{ $data->tujuan }}</td>
+            <td>{{ $data->perihal }}</td>
+            <td>
+              <span class="badge rounded-pill
+                @if($data->status=='draft') bg-info
+                @elseif($data->status=='terkirim') bg-success
+                @endif">
+                {{ $data->status }}
+              </span>
+            </td>
+          </tr> 
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+
+{{-- ================= SCRIPT FILTER ================= --}}
+<script>
+function filterTable(select, tableId, colIndex) {
+  const filter = select.value.toLowerCase();
+  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+  rows.forEach(row => {
+    const cell = row.cells[colIndex].innerText.toLowerCase();
+    row.style.display = filter === '' || cell.includes(filter)
+      ? ''
+      : 'none';
+  });
+}
+</script>
+
 @endsection

@@ -8,7 +8,7 @@ class SuratMasuk extends Model
 {
     
     protected $table = 'surat_masuks';
-    protected $fillable = ['id', 'no_surat', 'tgl_surat', 'tgl_terima', 'pengirim', 'perihal', 'file_surat', 'status'];
+    protected $fillable = ['no_surat', 'tgl_surat', 'tgl_terima', 'pengirim', 'perihal', 'file_surat', 'status'];
     public $timestamp = true;
 
     

@@ -10,6 +10,7 @@
       </span>
     </a>
   </div>
+
   <div class="table-responsive text-nowrap">
     <table class="table">
       <thead>
@@ -23,17 +24,42 @@
           <th>Actions</th>
         </tr>
       </thead>
+
       <tbody class="table-border-bottom-0">
         @foreach($suratKeluar as $item)
         <tr>
-          <td>{{$item->no_surat}}</td>
-          <td>{{$item->tgl_surat}}</td>
-          <td>{{$item->tujuan}}</td>
-          <td>{{$item->file_surat}}</td>
-          <td>{{$item->perihal}}</td>
+          <td>{{ $item->no_surat }}</td>
+          <td>{{ $item->tgl_surat }}</td>
+          <td>{{ $item->tujuan }}</td>
+          <td>{{ $item->perihal }}</td>
+
+          {{-- FILE SURAT (DIBENARKAN) --}}
           <td>
-            <span class="badge rounded-pill @if($item->status == 'diproses') bg-label-primary @elseif($item->status == 'didisposisi') bg-label-info @elseif($item->status == 'ditindaklanjuti') bg-label-warning @endif  me-1">{{$item->status}}</span>
+            @if($item->file_surat)
+             <a
+              href="{{ route('admin.keluar.show', $item->id) }}"
+              target="_blank"
+              class="btn btn-sm btn-info">
+              <i class="ri-eye-line"></i> Lihat
+            </a>
+
+
+
+            @else
+              <span class="text-muted">Tidak ada</span>
+            @endif
           </td>
+
+          <td>
+            <span class="badge rounded-pill
+              @if($item->status == 'diproses') bg-label-primary
+              @elseif($item->status == 'didisposisi') bg-label-info
+              @elseif($item->status == 'ditindaklanjuti') bg-label-warning
+              @endif me-1">
+              {{ $item->status }}
+            </span>
+          </td>
+
           <td>
             <div class="dropdown">
               <button
@@ -44,18 +70,20 @@
               </button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ route('admin.keluar.edit', $item->id) }}">
-                  <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                  Edit</a>
-                <a class="dropdown-item" href="{{ route('admin.keluar.destroy', $item->id) }}" data-confirm-delete="true">
-                  <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                  Delete</a>
+                  <i class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit
+                </a>
+                <a class="dropdown-item"
+                   href="{{ route('admin.keluar.destroy', $item->id) }}"
+                   data-confirm-delete="true">
+                  <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete
+                </a>
               </div>
             </div>
           </td>
         </tr>
         @endforeach
       </tbody>
-    </table>
+    </table>z
   </div>
 </div>
 @endsection

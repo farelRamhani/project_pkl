@@ -1,18 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\PengajuanSurat;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengajuanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $pengajuan = Pengajuan::with('category')->orderBy('id', 'desc')->get();
-        return view('pengajuan.index', compact('pengajuan'));
+        if(Auth::user()->role == 'admin'){
+            $pengajuan = PengajuanSurat::where('status', 'menunggu')->latest()->get();
+            return view('pengajuan.index', compact('pengajuan'));
+        } else {
+            $pengajuan = PengajuanSurat::latest()->get();
+            return view('pengajuan.index', compact('pengajuan'));
+        }
     }
 
     /**
@@ -30,18 +42,21 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:user_id',
-            'tujuan_surat' => 'required|string',
+            'id_user' => 'required',
+            'tujuan' => 'required|string',
             'perihal' => 'required|string',
-            'isi_surat' => 'required|string',
+            'file_surat' => 'required',
         ]);
-        
-        $pengajuan->user_id = $request->user_id;
-        $pengajuan->tujuan_surat = $request->tujuan_surat;
-        $pengajuan->perihal = $request->perihal;
-        $pengajuan->isi_surat = $request->isi_surat;
-        $pengajuan->save();
 
+        $path = $request->file('file_surat')->store('pengajuan', 'public');
+        $user_id = Auth::user()->id;
+        $pengajuan = new PengajuanSurat();
+        $pengajuan->file_surat = $path;
+        $pengajuan->user_id = Auth::user()->id;
+        $pengajuan->tujuan_surat = $request->tujuan;
+        $pengajuan->perihal = $request->perihal;
+        $pengajuan->status = 'menunggu';
+        $pengajuan->save();
 
         return redirect()->route('pengajuan.index')->with('success');
     }
@@ -67,7 +82,17 @@ class PengajuanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $pengajuan = PengajuanSurat::findOrFail($id);
+        $pengajuan->status = $request->status;   
+        $pengajuan->save();
+        toast('Berhasil mengupdate status', 'success');
+        if(Auth::user()->role == 'admin'){
+            $pengajuan = PengajuanSurat::where('status', 'menunggu')->latest()->get();
+            return redirect()->route('admin.pengajuan.index');
+        } else {
+            $pengajuan = PengajuanSurat::latest()->get();
+            return redirect()->route('pengajuan.index');
+        }
     }
 
     /**
@@ -76,5 +101,19 @@ class PengajuanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function download($id)
+    {
+        $surat = PengajuanSurat::findOrFail($id);
+
+        // validasi: apakah user emang dapat disposisi surat ini
+        $user_id = Auth::user()->id;
+        $isAuthorized = PengajuanSurat::where('user_id', $user_id)->where('id', $id)->exists();
+
+        if (!$isAuthorized) {
+            abort(403, 'Lu bukan yang ditugasin, diem aja bro 💀');
+        }
+
+        return response()->download(storage_path('app/public/' . $surat->file_surat));
     }
 }

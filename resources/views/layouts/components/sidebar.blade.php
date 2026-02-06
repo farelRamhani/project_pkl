@@ -77,6 +77,9 @@
                 <div data-i18n="Dashboards">Dashboards</div>
               </a>
             </li>
+            <li class="menu-header mt-7">
+              <span class="menu-header-text">Inbox</span>
+            </li>
             <!-- User interface -->
             @if (auth()->user()->role === 'admin')
             <li class="menu-item {{ Route::is('admin.users.index') ? 'active' : '' }}">
@@ -85,12 +88,29 @@
                 <div data-i18n="User interface">Users</div>
               </a>
             </li>
-            @endif
-            @if (auth()->user()->role === 'admin')
-            <li class="menu-item {{ Route::is('admin.masuk.index') ? 'active' : '' }}">
+            <li class="menu-item {{ Route::is('admin.masuk.index') ? 'active' : '' }} {{ Route::is('admin.masuk.create') ? 'active' : '' }} {{ Route::is('admin.masuk.edit') ? 'active' : '' }}">
               <a href="{{ route('admin.masuk.index') }}" class="menu-link">
                 <i class="menu-icon icon-base ri ri-mail-add-line"></i>
                 <div data-i18n="User interface">Surat Masuk</div>
+              </a>
+            </li>
+            <!-- Extended components -->
+            <li class="menu-item {{ Route::is('admin.keluar.index') ? 'active' : '' }} {{ Route::is('keluar.create') ? 'active' : '' }} {{ Route::is('keluar.edit') ? 'active' : '' }}">
+              <a href="{{ route('admin.keluar.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-mail-send-line"></i>
+                <div data-i18n="User interface">Surat Keluar</div>
+              </a>
+            </li>
+            <li class="menu-item {{ Route::is('admin.pengajuan.index') ? 'active' : '' }} {{ Route::is('keluar.create') ? 'active' : '' }} {{ Route::is('keluar.edit') ? 'active' : '' }}">
+              <a href="{{ route('admin.pengajuan.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-mail-send-line"></i>
+                <div data-i18n="User interface">Pengajuan Surat</div>
+              </a>
+            </li>
+            <li class="menu-item {{ Route::is('admin.laporan.index') ? 'active' : '' }} {{ Route::is('keluar.create') ? 'active' : '' }} {{ Route::is('keluar.edit') ? 'active' : '' }}">
+              <a href="{{ route('admin.laporan.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-mail-send-line"></i>
+                <div data-i18n="User interface">Laporan Surat Masuk - Keluar</div>
               </a>
             </li>
             @endif
@@ -107,21 +127,24 @@
                 <div data-i18n="User interface">Arsip</div>
               </a>
             </li>
+            <li class="menu-item {{ Route::is('pengajuan.index') ? 'active' : '' }} {{ Route::is('pengajuan.create') ? 'active' : '' }}">
+              <a href="{{ route('pengajuan.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-archive-line"></i>
+                <div data-i18n="User interface">Pengajuan</div>
+              </a>
+            </li>
             @endif
             @if (auth()->user()->role === 'kepsek')
             <li class="menu-item {{ Route::is('kepsek.masuk.index') ? 'active' : '' }}">
               <a href="{{ route('kepsek.masuk.index') }}" class="menu-link">
                 <i class="menu-icon icon-base ri ri-mail-add-line"></i>
-                <div data-i18n="User interface">Surat Masuk</div>
+                <div data-i18n="User interface">Disposisi Surat Masuk</div>
               </a>
             </li>
-            @endif
-            @if (auth()->user()->role === 'admin')
-            <!-- Extended components -->
-            <li class="menu-item {{ Route::is('admin.keluar.index') ? 'active' : '' }} {{ Route::is('keluar.create') ? 'active' : '' }} {{ Route::is('keluar.edit') ? 'active' : '' }}">
-              <a href="{{ route('admin.keluar.index') }}" class="menu-link">
-                <i class="menu-icon icon-base ri ri-mail-send-line"></i>
-                <div data-i18n="User interface">Surat Keluar</div>
+            <li class="menu-item {{ Route::is('kepsek.history.index') ? 'active' : '' }}">
+              <a href="{{ route('kepsek.history.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-mail-open-line"></i>
+                <div data-i18n="User interface">Riwayat Surat</div>
               </a>
             </li>
             @endif
