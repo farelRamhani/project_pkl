@@ -18,7 +18,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>No</th>
+          <th>No Surat</th>
           <th>Tgl Surat</th>
           <th>Tgl Terima</th>
           <th>Pengirim</th>
@@ -32,12 +32,7 @@
       <tbody class="table-border-bottom-0">
         @foreach($suratMasuk as $item)
         <tr>
-          <td>
-            {{ ($suratMasuk instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                ? ($suratMasuk->currentPage() - 1) * $suratMasuk->perPage() + $loop->iteration
-                : $loop->iteration
-            }}
-          </td>
+          <td>{{ $item->no_surat }}</td>
           <td>{{ $item->tgl_surat }}</td>
           <td>{{ $item->tgl_terima }}</td>
           <td>{{ $item->pengirim }}</td>
@@ -58,7 +53,7 @@
               @elseif($item->status == 'ditindaklanjuti') bg-label-warning
               @endif
             me-1">
-              {{ $item->status }}
+              {{ ucfirst($item->status) }}
             </span>
           </td>
           <td>
@@ -67,6 +62,7 @@
                 <i class="icon-base ri ri-more-2-line icon-18px"></i>
               </button>
               <div class="dropdown-menu">
+
                 @if(
                   ($item->status !== 'didisposisi' && Auth::user()->role === 'admin') ||
                   ($item->status !== 'diproses' && Auth::user()->role === 'kepsek')
@@ -82,10 +78,15 @@
                   Edit
                 </a>
 
-                <a class="dropdown-item" href="{{ route('admin.masuk.destroy', $item->id) }}" data-confirm-delete="true">
-                  <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                  Delete
-                </a>
+                <form action="{{ route('admin.masuk.destroy', $item->id) }}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button class="dropdown-item" onclick="return confirm('Yakin ingin menghapus?')">
+                    <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
+                    Delete
+                  </button>
+                </form>
+
               </div>
             </div>
           </td>
@@ -93,7 +94,7 @@
 
         {{-- MODAL DISPOSISI --}}
         <div class="modal fade" id="modalDisposisi-{{ $item->id }}" tabindex="-1">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog">
             <form
               action="{{ Auth::user()->role === 'admin'
                 ? route('admin.disposisi.store')

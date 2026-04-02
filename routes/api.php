@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\SuratMasukController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/surat-masuk', [SuratMasukController::class, 'index']);
+    Route::post('/surat-masuk', [SuratMasukController::class, 'store']);
+    Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show']);
+    Route::post('/surat-masuk/{id}', [SuratMasukController::class, 'update']);
+    Route::delete('/surat-masuk/{id}', [SuratMasukController::class, 'destroy']);
+});
+
+
+Route::apiResource('surat-masuk', SuratMasukController::class);

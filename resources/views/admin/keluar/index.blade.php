@@ -83,7 +83,7 @@
         </tr>
         @endforeach
       </tbody>
-    </table>z
+    </table>
   </div>
 </div>
 @endsection

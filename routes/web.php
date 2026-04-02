@@ -14,6 +14,8 @@ use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KepsekController;
 use App\Http\Controllers\LaporanController; // << Tambahan untuk laporan
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +92,20 @@ Route::prefix('kepsek')->as('kepsek.')->middleware(['auth', IsKepsek::class])->g
     Route::resource('disposisi', KepsekController::class);
     Route::get('history', [KepsekController::class, 'riwayat'])->name('history.index');
 });
+
+
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+});
+
+
+
+Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+Route::get('/messages/read/{id}', [MessageController::class, 'read'])->name('messages.read');
+Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.delete');
+

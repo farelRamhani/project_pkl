@@ -53,24 +53,25 @@
                     <li>
                       <div class="dropdown-divider my-1"></div>
                     </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="icon-base ri ri-user-line icon-md me-3"></i>
-                        <span>My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="icon-base ri ri-settings-4-line icon-md me-3"></i>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
+                    @if(Auth::user()->role == 'user')
+                      <li>
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+                          <i class="icon-base ri ri-user-line icon-md me-3"></i>
+                          <span>My Profile</span>
+                        </a>
+                      </li>
+                      @endif
+                    
+                   <li>
+                      <a class="dropdown-item" href="{{ route('messages.index') }}">
                         <span class="d-flex align-items-center align-middle">
                           <i class="flex-shrink-0 icon-base ri ri-bank-card-line icon-md me-3"></i>
-                          <span class="flex-grow-1 align-middle ms-1">Billing Plan</span>
-                          <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+                          <span class="flex-grow-1 align-middle ms-1">Pesan Masuk</span>
+
+                          <!-- Badge dinamis -->
+                          <span class="flex-shrink-0 badge rounded-pill bg-danger">
+                            {{ $unreadCount ?? 0 }}
+                          </span>
                         </span>
                       </a>
                     </li>
