@@ -46,16 +46,20 @@
               <span class="text-muted">Tidak ada</span>
             @endif
           </td>
+
+          {{-- 🔥 TAMBAHAN STATUS --}}
           <td>
             <span class="badge rounded-pill
               @if($item->status == 'diproses') bg-label-primary
               @elseif($item->status == 'didisposisi') bg-label-info
+              @elseif($item->status == 'terkirim') bg-label-secondary
               @elseif($item->status == 'ditindaklanjuti') bg-label-warning
               @endif
             me-1">
               {{ ucfirst($item->status) }}
             </span>
           </td>
+
           <td>
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow shadow-none" data-bs-toggle="dropdown">
@@ -63,9 +67,10 @@
               </button>
               <div class="dropdown-menu">
 
+                {{-- ✅ LOGIC SUDAH BENAR --}}
                 @if(
-                  ($item->status !== 'didisposisi' && Auth::user()->role === 'admin') ||
-                  ($item->status !== 'diproses' && Auth::user()->role === 'kepsek')
+                  (Auth::user()->role === 'admin' && $item->status === 'diproses') ||
+                  (Auth::user()->role === 'kepsek' && $item->status === 'didisposisi')
                 )
                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDisposisi-{{ $item->id }}">
                   <i class="icon-base ri ri-mail-send-line icon-18px me-1"></i>
@@ -134,7 +139,6 @@
                   </div>
 
                   <input type="hidden" name="surat_masuk_id" value="{{ $item->id }}">
-                  <input type="hidden" name="pengirim_id" value="{{ Auth::id() }}">
                 </div>
 
                 <div class="modal-footer">
@@ -145,7 +149,7 @@
             </form>
           </div>
         </div>
-        {{-- END MODAL --}}
+
         @endforeach
       </tbody>
     </table>

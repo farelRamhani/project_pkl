@@ -13,7 +13,7 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KepsekController;
-use App\Http\Controllers\LaporanController; // << Tambahan untuk laporan
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 
@@ -67,7 +67,6 @@ Route::prefix('user')->middleware(['auth', isUser::class])->group(function () {
 */
 Route::prefix('admin')->as('admin.')->middleware(['auth', IsAdmin::class])->group(function () {
 
-    // 🔴 WAJIB DI ATAS RESOURCE (BIAR TIDAK 404)
     Route::get('keluar/lihat/{id}', [SuratKeluarController::class, 'lihat'])
         ->name('keluar.lihat');
 
@@ -77,24 +76,29 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', IsAdmin::class])->grou
     Route::resource('disposisi', DisposisiController::class);
     Route::resource('users', UsersController::class);
 
-    // ===== LAPORAN SURAT =====
     Route::get('laporan', [LaporanController::class, 'index'])
         ->name('laporan.index');
 });
 
 /*
 |--------------------------------------------------------------------------
-| KEPSEK
+| KEPSEK (FIX DI SINI 🔥)
 |--------------------------------------------------------------------------
 */
 Route::prefix('kepsek')->as('kepsek.')->middleware(['auth', IsKepsek::class])->group(function () {
     Route::get('masuk', [KepsekController::class, 'index'])->name('masuk.index');
-    Route::resource('disposisi', KepsekController::class);
+
+    // 🔥 FIX: pakai DisposisiController (bukan KepsekController)
+    Route::resource('disposisi', DisposisiController::class);
+
     Route::get('history', [KepsekController::class, 'riwayat'])->name('history.index');
 });
 
-
-
+/*
+|--------------------------------------------------------------------------
+| PROFILE
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -103,9 +107,11 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-
-
+/*
+|--------------------------------------------------------------------------
+| MESSAGES
+|--------------------------------------------------------------------------
+*/
 Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 Route::get('/messages/read/{id}', [MessageController::class, 'read'])->name('messages.read');
 Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.delete');
-

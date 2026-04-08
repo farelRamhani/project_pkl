@@ -92,3 +92,4 @@ class InboxController extends Controller
         return view('arsip.index', compact('disposisi'));
     }
 }
+    

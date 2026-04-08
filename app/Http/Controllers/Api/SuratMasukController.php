@@ -9,32 +9,34 @@ use Illuminate\Validation\ValidationException;
 
 class SuratMasukController extends Controller
 {
-    /**
-     * Ambil semua data surat masuk
-     */
+    // ===== INDEX =====
     public function index()
     {
         try {
-            $data = SuratMasuk::all();
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::latest()->get();
+            } else {
+                $data = SuratMasuk::where('user_id', $user->id)->latest()->get();
+            }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data surat masuk berhasil diambil',
-                'data'    => $data
+                'data' => $data
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan saat mengambil data',
-                'error'   => $e->getMessage()
+                'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Tambah data surat masuk baru
-     */
+    // ===== STORE =====
     public function store(Request $request)
     {
         try {
@@ -44,10 +46,18 @@ class SuratMasukController extends Controller
                 'tgl_terima' => 'required|date',
                 'pengirim'   => 'required|string|max:100',
                 'perihal'    => 'required|string',
-                'status'     => 'nullable|in:baru,diproses,selesai'
+                'status'     => 'nullable|in:baru,diproses,selesai,arsip'
             ]);
 
-            $data = SuratMasuk::create($validated);
+            $data = SuratMasuk::create([
+                'no_surat'   => $validated['no_surat'],
+                'tgl_surat'  => $validated['tgl_surat'],
+                'tgl_terima' => $validated['tgl_terima'],
+                'pengirim'   => $validated['pengirim'],
+                'perihal'    => $validated['perihal'],
+                'status'     => $validated['status'] ?? 'baru',
+                'user_id'    => auth()->id(), // 🔥 PENTING
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -71,48 +81,60 @@ class SuratMasukController extends Controller
         }
     }
 
-    /**
-     * Tampilkan detail satu surat masuk
-     */
+    // ===== SHOW =====
     public function show($id)
     {
         try {
-            $data = SuratMasuk::find($id);
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::find($id);
+            } else {
+                $data = SuratMasuk::where('id', $id)
+                    ->where('user_id', $user->id)
+                    ->first();
+            }
 
             if (!$data) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data surat masuk tidak ditemukan'
+                    'message' => 'Data tidak ditemukan'
                 ], 404);
             }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data ditemukan',
-                'data'    => $data
+                'data' => $data
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan',
-                'error'   => $e->getMessage()
+                'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Update data surat masuk
-     */
+    // ===== UPDATE =====
     public function update(Request $request, $id)
     {
         try {
-            $data = SuratMasuk::find($id);
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::find($id);
+            } else {
+                $data = SuratMasuk::where('id', $id)
+                    ->where('user_id', $user->id)
+                    ->first();
+            }
 
             if (!$data) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data surat masuk tidak ditemukan'
+                    'message' => 'Data tidak ditemukan'
                 ], 404);
             }
 
@@ -122,45 +144,51 @@ class SuratMasukController extends Controller
                 'tgl_terima' => 'sometimes|date',
                 'pengirim'   => 'sometimes|string|max:100',
                 'perihal'    => 'sometimes|string',
-                'status'     => 'nullable|in:baru,diproses,selesai'
+                'status'     => 'nullable|in:baru,diproses,selesai,arsip'
             ]);
 
             $data->update($validated);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Data surat masuk berhasil diupdate',
-                'data'    => $data->fresh()
+                'message' => 'Berhasil diupdate',
+                'data' => $data->fresh()
             ], 200);
 
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi gagal',
-                'errors'  => $e->errors()
+                'errors' => $e->errors()
             ], 422);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat mengupdate data',
-                'error'   => $e->getMessage()
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Hapus data surat masuk
-     */
+    // ===== DELETE =====
     public function destroy($id)
     {
         try {
-            $data = SuratMasuk::find($id);
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::find($id);
+            } else {
+                $data = SuratMasuk::where('id', $id)
+                    ->where('user_id', $user->id)
+                    ->first();
+            }
 
             if (!$data) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data surat masuk tidak ditemukan'
+                    'message' => 'Data tidak ditemukan'
                 ], 404);
             }
 
@@ -168,14 +196,74 @@ class SuratMasukController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Data surat masuk berhasil dihapus'
+                'message' => 'Berhasil dihapus'
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat menghapus data',
-                'error'   => $e->getMessage()
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ===== INBOX =====
+    public function inbox()
+    {
+        try {
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::where('status', '!=', 'arsip')->latest()->get();
+            } else {
+                $data = SuratMasuk::where('user_id', $user->id)
+                    ->where('status', '!=', 'arsip')
+                    ->latest()
+                    ->get();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data inbox berhasil diambil',
+                'data' => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ===== ARSIP =====
+    public function arsip()
+    {
+        try {
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                $data = SuratMasuk::where('status', 'arsip')->latest()->get();
+            } else {
+                $data = SuratMasuk::where('user_id', $user->id)
+                    ->where('status', 'arsip')
+                    ->latest()
+                    ->get();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data arsip berhasil diambil',
+                'data' => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
