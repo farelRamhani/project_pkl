@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\IsKepsek;
 use App\Http\Middleware\isUser;
 

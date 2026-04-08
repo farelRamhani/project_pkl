@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
+
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class IsAdmin
@@ -15,11 +16,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $one = Auth::user()->role;
-        if($one == 'admin') {
+        if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
-        } else {
-            return abort(403);
         }
+        return abort(403);
     }
 }
